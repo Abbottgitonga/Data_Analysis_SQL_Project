@@ -1,0 +1,37 @@
+--QUESTION: What are the top skills based on salary for Data abd Business Analyst roles?
+
+
+SELECT 
+    count (skills_job_dim.job_id) AS job_count,
+    skills_dim.skill_id,
+    skills,
+    ROUND (avg (salary_year_avg), 2) AS avg_pay
+FROM 
+    skills_job_dim
+ LEFT JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ LEFT JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
+WHERE 
+    salary_year_avg IS NOT NULL 
+    AND job_title_short IN ('Business Analyst', 'Data Analyst')
+GROUP BY    
+    skills_dim.skill_id
+ORDER BY 
+    avg_pay DESC
+LIMIT 25
+
+
+/*
+Top 3 face-value insights (ignoring job_count; number of postings assiciated with each skill):
+
+Infrastructure-adjacent skills pay the most
+The highest salaries are tied to systems, platform, and protocol skills (e.g., SVN, Solidity, VMware, Terraform). 
+Analysts closest to production infrastructure command the strongest pay.
+
+ML frameworks define the core high-pay band
+PyTorch, TensorFlow, Keras, MXNet, Hugging Face, and DataRobot cluster tightly in the ~$120K–$135K range,
+signaling that applied ML capability is a standard premium skill for analysts.
+
+Data orchestration and scale outperform pure analytics
+Kafka, Airflow, Scala, Cassandra, and MongoDB consistently outpay traditional analysis tools, 
+showing that owning data pipelines and scalable systems is more valuable than reporting or visualization alone.
+*/

@@ -1,0 +1,330 @@
+
+--QUESTION: What are the skills associated with the top paying Data and Business Analyst jobs?
+
+WITH top_paying_jobs AS
+    (SELECT job_title_short,
+        salary_year_avg,
+        job_id,
+        company_dim.company_id,
+        name
+    FROM job_postings_fact
+    LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
+    WHERE 
+        job_title_short IN ('Business Analyst', 'Data Analyst')
+        AND salary_year_avg IS NOT NULL
+    ORDER BY 
+        salary_year_avg DESC
+    LIMIT 10
+    )
+
+SELECT
+    skills,
+    job_title_short,
+    salary_year_avg,
+    top_paying_jobs.job_id,
+    name
+FROM 
+    top_paying_jobs
+LEFT JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id
+INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+ORDER BY 
+    salary_year_avg DESC
+
+
+/*
+Insights from Skills in Top 10 Data & Business Analyst Job Postings (2023)
+
+Python and SQL dominate the skill set, reinforcing them as foundational requirements even in top-paying roles.
+
+BI and reporting tools (Tableau, Excel, Power BI) are still common, but they appear alongside programming—not in isolation.
+
+Statistical and data processing tools (R, SAS, Spark, Airflow) indicate expectations beyond basic querying.
+
+Enterprise and platform technologies (Oracle, Snowflake, Hadoop, BigQuery) appear less frequently but signal higher-complexity environments.
+*/
+
+/* 
+RESULTS
+[
+  {
+    "skills": "oracle",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "400000.0",
+    "job_id": 209315,
+    "name": "ЛАНИТ"
+  },
+  {
+    "skills": "kafka",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "400000.0",
+    "job_id": 209315,
+    "name": "ЛАНИТ"
+  },
+  {
+    "skills": "linux",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "400000.0",
+    "job_id": 209315,
+    "name": "ЛАНИТ"
+  },
+  {
+    "skills": "git",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "400000.0",
+    "job_id": 209315,
+    "name": "ЛАНИТ"
+  },
+  {
+    "skills": "svn",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "400000.0",
+    "job_id": 209315,
+    "name": "ЛАНИТ"
+  },
+  {
+    "skills": "sql",
+    "job_title_short": "Business Analyst",
+    "salary_year_avg": "387460.0",
+    "job_id": 648429,
+    "name": "Roblox"
+  },
+  {
+    "skills": "python",
+    "job_title_short": "Business Analyst",
+    "salary_year_avg": "387460.0",
+    "job_id": 648429,
+    "name": "Roblox"
+  },
+  {
+    "skills": "r",
+    "job_title_short": "Business Analyst",
+    "salary_year_avg": "387460.0",
+    "job_id": 648429,
+    "name": "Roblox"
+  },
+  {
+    "skills": "go",
+    "job_title_short": "Business Analyst",
+    "salary_year_avg": "387460.0",
+    "job_id": 648429,
+    "name": "Roblox"
+  },
+  {
+    "skills": "spark",
+    "job_title_short": "Business Analyst",
+    "salary_year_avg": "387460.0",
+    "job_id": 648429,
+    "name": "Roblox"
+  },
+  {
+    "skills": "airflow",
+    "job_title_short": "Business Analyst",
+    "salary_year_avg": "387460.0",
+    "job_id": 648429,
+    "name": "Roblox"
+  },
+  {
+    "skills": "hadoop",
+    "job_title_short": "Business Analyst",
+    "salary_year_avg": "387460.0",
+    "job_id": 648429,
+    "name": "Roblox"
+  },
+  {
+    "skills": "python",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 1110602,
+    "name": "Illuminate Mission Solutions"
+  },
+  {
+    "skills": "r",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 1110602,
+    "name": "Illuminate Mission Solutions"
+  },
+  {
+    "skills": "vba",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 1110602,
+    "name": "Illuminate Mission Solutions"
+  },
+  {
+    "skills": "excel",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 1110602,
+    "name": "Illuminate Mission Solutions"
+  },
+  {
+    "skills": "tableau",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 1110602,
+    "name": "Illuminate Mission Solutions"
+  },
+  {
+    "skills": "excel",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 641501,
+    "name": "Citigroup, Inc"
+  },
+  {
+    "skills": "word",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 641501,
+    "name": "Citigroup, Inc"
+  },
+  {
+    "skills": "sql",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "python",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "r",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "sas",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "matlab",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "spark",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "airflow",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "excel",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "tableau",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "power bi",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "sas",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "375000.0",
+    "job_id": 229253,
+    "name": "Torc Robotics"
+  },
+  {
+    "skills": "sql",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "python",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "r",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "bigquery",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "snowflake",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "tableau",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "power bi",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "looker",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 101757,
+    "name": "Care.com"
+  },
+  {
+    "skills": "sql",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 1059665,
+    "name": "Anthropic"
+  },
+  {
+    "skills": "python",
+    "job_title_short": "Data Analyst",
+    "salary_year_avg": "350000.0",
+    "job_id": 1059665,
+    "name": "Anthropic"
+  }
+]
+*/
