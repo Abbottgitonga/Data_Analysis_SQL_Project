@@ -11,7 +11,7 @@ WITH average_salary AS
     LEFT JOIN job_postings_fact ON job_postings_fact.job_id = skills_job_dim.job_id
     WHERE 
         salary_year_avg IS NOT NULL 
-        AND job_title_short = 'Data Analyst'
+        AND job_title_short IN ('Data Analyst','Business Analyst')
     GROUP BY 
         skills_dim.skill_id
     ORDER BY 
@@ -30,7 +30,7 @@ demand_skills AS
         skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
         INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
     WHERE 
-        job_title_short = 'Data Analyst' 
+        job_title_short IN ('Data Analyst','Business Analyst')
         AND salary_year_avg IS NOT NULL
     GROUP BY 
         skills_dim.skill_id
@@ -47,7 +47,7 @@ SELECT
 FROM 
    demand_skills
 INNER JOIN average_salary ON demand_skills.skill_id = average_salary.skill_id
-WHERE in_demand_skills > 10
+WHERE in_demand_skills > 100
 ORDER BY 
     in_demand_skills DESC,
     avg_pay DESC;
